@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  user_server:
+    build: .    #Dockerfile (in same directory)
+    command: python user_main.py
+    ports:
+      - "8000:8000"       
+
+# Maps port 8000 on your host machine (EC2) to port 8000 in the container.
+
+# Format: "HOST_PORT:CONTAINER_PORT".
+
+# Allows external access via http://<EC2-IP>:8000.
+    volumes:
+      - .:/app
+
+    environment:
+      - PYTHONUNBUFFERED=1
+
+
+
+  seller_server:
+    build: .    #Dockerfile (in same directory)
+    command: python seller_main.py
+    ports:
+      - "8001:8001"       
+    volumes:
+      - .:/app
+
+    environment:
+      - PYTHONUNBUFFERED=1
+  
