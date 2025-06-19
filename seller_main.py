@@ -6,7 +6,7 @@ mcp = FastApiMCP(app, name= "seller_server", description="Seller server for mana
 
 mcp.mount()
 
-if __name__ == "__main__":
-    import uvicorn
+# if __name__ == "__main__":
+#     import uvicorn
 
-    uvicorn.run("seller_main:app", host="0.0.0.0", port=8001, reload=True)
+#     uvicorn.run("seller_main:app", host="0.0.0.0", port=8001, reload=True)
