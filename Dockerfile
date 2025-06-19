@@ -6,9 +6,9 @@ RUN apt-get update && \
 
 
 
-RUN git clone https://github.com/CULPR1/atlas-fastapi.git/app
-
 WORKDIR /app
+
+RUN git clone https://github.com/CULPR1/atlas-fastapi.git .
 
 COPY requirements.txt .
 
