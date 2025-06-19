@@ -5,7 +5,7 @@ from pymongo.errors import OperationFailure
 import os
 from dotenv import load_dotenv
 
-load_dotenv("C:\\Users\\pavit\\Documents\\Projects\\atlas-fastapi\\.env")
+load_dotenv("/app/.env")
 
 #"/home/ubuntu/atlas-fastapi/.env"
 #C:\\Users\\pavit\\Documents\\Projects\\atlas-fastapi\\.env
