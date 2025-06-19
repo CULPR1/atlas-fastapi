@@ -4,8 +4,13 @@ from pymongo.errors import ConnectionFailure
 from pymongo.errors import OperationFailure
 import os
 from dotenv import load_dotenv
+from pathlib import Path
 
-load_dotenv("/app/.env")
+env_path = Path(__file__).parent / ".env"
+
+load_dotenv(env_path)
+
+#"/app/.env"
 
 #"/home/ubuntu/atlas-fastapi/.env"
 #C:\\Users\\pavit\\Documents\\Projects\\atlas-fastapi\\.env
