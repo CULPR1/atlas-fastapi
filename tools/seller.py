@@ -15,6 +15,12 @@ class Item_rem(BaseModel):
     itemname: str
     seller_id: str
 
+class Item_rem_request(BaseModel):
+    item_rem_request : list[Item_rem]
+
+class Itemrequest(BaseModel):
+    item_list : list[Item]
+
 
 app = FastAPI()
 
@@ -38,7 +44,7 @@ For multiple items, use a list parameter:
   }"""
   
   )
-def add_items(items: Item | list[Item]):
+def add_items(request: Item | Itemrequest):
     # """
     # adds items to the inventory, requires a list in the form
     # Item  = {
@@ -49,8 +55,10 @@ def add_items(items: Item | list[Item]):
     # }
     # """
     added_items = []
-    if not isinstance(items, list):
-        items = [items]
+    if not isinstance(request, Itemrequest):
+        items = [request]
+    else:
+        items = request.item_list
     for item in items:
         result = addInventory(item.itemname, item.number_of_units, item.price_of_unit, item.seller_id)
         added_items.append(result)
@@ -58,10 +66,12 @@ def add_items(items: Item | list[Item]):
 
 
 @app.delete("/delete_item", response_model = list[str], description = "items are deleted from the inventory, requires a list of itemname and seller_id, return a list of messages.")
-def delete_inv(items : Item_rem | list[Item_rem]):
+def delete_inv(request : Item_rem | Item_rem_request):
     deleted_items = []
-    if not isinstance(items, list):
-        items = [items]
+    if isinstance(request, Item_rem_request):
+        items = request.item_rem_request
+    else:
+        items = [request]
     for item in items:
         result = deleteInventory(item.itemname,item.seller_id)
         deleted_items.append(result)
@@ -69,14 +79,19 @@ def delete_inv(items : Item_rem | list[Item_rem]):
 
 
 
-@app.get("list_inventory/{seller_id}", description = "lists all items in the inventory for a given seller_id, returns a list of items.")
+@app.get("/list_inventory/{seller_id}", description = "lists all items in the inventory for a given seller_id, returns a list of items.")
 def list_inventory(seller_id: str):
     return listInventory(seller_id)
 
 
-@app.put("update_item", response_model = list[str], description = "updates items in the inventory, requires a list of itemname,number_of_units,price_of_unit,seller_id, return a list of messages.")
-def update_item(items: list[Item]):
+@app.put("/update_item", response_model = list[str], description = "updates items in the inventory, requires a list of itemname,number_of_units,price_of_unit,seller_id, return a list of messages.")
+def update_item(request: Itemrequest | Item):
     updated_items = []
+    if isinstance(request,Itemrequest):
+        items = request.item_list
+
+    else:
+        items = [request]
     for item in items:
         result = updateInventory(item.itemname, item.number_of_units, item.price_of_unit, item.seller_id)
         updated_items.append(result)

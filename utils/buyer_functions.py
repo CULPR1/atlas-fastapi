@@ -29,13 +29,6 @@ def searchShop(itemname :str | None=None, seller_id : str | None=None):
         return f"Error : {str(e)}"
 
 
-
-# item_ls = [{"seller_id" : "mark_123", "itemname" : "apple", "quantity" : 3},{"seller_id" : "mark_123", "itemname" : "banana", "quantity" : 3},{"seller_id" : "mark_123", "itemname" : "pineapple", "quantity" : 1}]
-# print(item_ls[0]["seller_id"])
-
-
-
-
 def addtoCart (itemname : str,number_of_units : int, price_of_unit : float ,seller_id : str,buyer_id : str):
     with client.start_session() as session:
         try:
@@ -75,14 +68,6 @@ def addtoCart (itemname : str,number_of_units : int, price_of_unit : float ,sell
         except Exception as e:
             print( f"Error : {str(e)}")
             session.abort_transaction
-
-
-# def remove_duplicates(buyer_id : str):
-#     # this functions removes multiple addition of the the same item to the cart and combines them into one entry
-#     with client.start_session() as session:
-#         try:
-#             for buyer
-
 
 def start_balance(buyer_id : str, balance : float): #works
     with client.start_session() as session:
@@ -141,10 +126,6 @@ def update_balance(buyer_id : str, balance : float):
             return (f"Error {str(e)}")
             client.abort_transaction()
 
-
-
-# listing = profile.find({"user_id" : "jack_234"})
-# print(listing["cart"][2]["itemname"])
 
 
 
@@ -249,13 +230,5 @@ def pay(buyer_id : str, payment_amount : float | None=None):
 def view_cart(buyer_id : str ):
     cart = list(profile.find({"user_id" : buyer_id},{"_id" : 0}))[0]["cart"]
     return cart
-
-
-
-
-
-
-
-print(remove_from_cart("apple", "jack_234"))
 
     
