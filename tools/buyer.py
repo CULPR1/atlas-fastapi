@@ -54,7 +54,7 @@ class Payment(BaseModel):
 
 
 def search_shop(query = Searchrequest):
-    return searchShop(query.item_name,seller_id)
+    return searchShop(query.item_name,query.seller_id)
 
 
 
@@ -67,7 +67,7 @@ def search_shop(query = Searchrequest):
 
 
 def add_to_cart(items = Cartrequest | listCartrequest):
-    if items not listCartrequest:
+    if not isinstance(items,listCartrequest) :
         items = [items]
     results = []
     for item in items:
@@ -78,7 +78,7 @@ def add_to_cart(items = Cartrequest | listCartrequest):
 
 
 @app.post(
-    "/buyer/addBalance"
+    "/buyer/addBalance",
     name = "addBalance",
     response_model = str,
     description = """ adds the balance section to the buyer's profile so that
@@ -92,7 +92,7 @@ def addBalance(balance_req = Balance):
 
 
 @app.post(
-    "/buyer/updateBalance"
+    "/buyer/updateBalance",
     name = "updateBalance",
     response_model = str,
     description = """ updates the balance section to the buyer's profile, if the balance is to be withdrawn the value of balance input should be negative"""
@@ -104,7 +104,7 @@ def updateBalance(balance_req = Balance):
 
 
 @app.post(
-    "/buyer/removeCart"
+    "/buyer/removeCart",
     name = "removeCart",
     response_model = list[str],
     description = """ removes the items in the cart when mentioned, can be a single item or  a list of items"""
@@ -112,7 +112,7 @@ def updateBalance(balance_req = Balance):
 
 def addBalance(remove_req = removerequest | listremoverequest):
 
-    if remove_req not listremoverequest:
+    if not isinstance(remove_req,listremoverequest):
         remove_req = [remove_req]
     response = []
     for item in remove_req:
@@ -122,7 +122,7 @@ def addBalance(remove_req = removerequest | listremoverequest):
 
 
 @app.get(
-    "/buyer/Total_cost"
+    "/buyer/Total_cost",
     name = "Total_cost",
     response_model = float | str,
     description = "gives the buyer a total cost of all the items in his cart if cart exsists, or returns that ther is nothing in cart")
@@ -135,8 +135,8 @@ def Total_cost(buyer_id : str):
 
 
 @app.post(
-    "/buyer/payment"
-    name = "payment"
+    "/buyer/payment",
+    name = "payment",
     description = "allows the buyer to pay for the items in his cart, one can pay using cash provided or the balance account under their name, if the balance account is to be used the payment field is set to None"
 )
 
@@ -146,8 +146,8 @@ def payment(pay_req = Payment):
 
 
 @app.get(
-    "/buyer/view_cart"\
-    name = "Viewcart"
+    "/buyer/view_cart",
+    name = "Viewcart",
     description = "allows the buyer to see all the items in his cart"
 )
 
