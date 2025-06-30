@@ -1,6 +1,5 @@
 from config.init import *
 from utils.seller_functions import *
-import json 
 from fastapi import FastAPI
 from pydantic import BaseModel, PositiveInt, PositiveFloat
 

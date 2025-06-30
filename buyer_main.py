@@ -1,6 +1,8 @@
-def main():
-    print("Hello from buyer server!")
+from tools.buyer import *
+from fastapi_mcp import FastApiMCP
+
+mcp = FastApiMCP(app, name= "buyer_server", description="Seller server for managing inventory and seller operations.")
 
 
-if __name__ == "__main__":
-    main()
+mcp.mount()
+
