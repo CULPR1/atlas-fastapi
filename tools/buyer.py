@@ -68,7 +68,7 @@ def search_shop(query : Searchrequest):
     )
 
 def addBalance(balance_req : Balance):
-    return add_balance(balance_req.buyer_id,balance_req.balance)
+    return update_balance(balance_req.buyer_id,balance_req.balance)
 
 
 
@@ -83,6 +83,7 @@ def addBalance(balance_req : Balance):
 def updateBalance(balance_req : Balance):
     return add_balance(balance_req.buyer_id,balance_req.balance)
 
+# 
 
 
 @app.post(

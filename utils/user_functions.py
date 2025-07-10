@@ -6,6 +6,7 @@ def dict_profile(user_id , password , role , name = None ):
         "password" : password.strip(),
         "name" : name,
         "role" : role.lower(),
+        "balance" : 0.0
     }
 
 def check_user(user_id ):
@@ -51,9 +52,32 @@ def login_user(user_id , password ):
 
 #print(login_user("malcom_234","56"))
 
+print(register_user("malcom_235","235","buyer","Malcoms"))
 
 
 
 
+# # Add first seller
+# print("\n=== Registering Sellers ===")
+# print("Seller 1:", register_user("seller_001", "sellerpass1", "seller", "John Doe"))
+# print("Seller 2:", register_user("seller_002", "sellerpass2", "seller", "Jane Smith"))
+
+# # Add first buyer
+# print("\n=== Registering Buyers ===")
+# print("Buyer 1:", register_user("buyer_001", "buypass1", "buyer", "Alice Johnson"))
+# print("Buyer 2:", register_user("buyer_002", "buypass2", "buyer", "Bob Williams"))
+
+# # Verify all accounts were created
+# print("\n=== Verification ===")
+# print("Check seller_001:", check_user("seller_001"))
+# print("Check seller_002:", check_user("seller_002"))
+# print("Check buyer_001:", check_user("buyer_001"))
+# print("Check buyer_002:", check_user("buyer_002"))
+
+# # Test login functionality
+# print("\n=== Test Logins ===")
+# print("Seller 1 login:", login_user("seller_001", "sellerpass1"))
+# print("Buyer 1 login:", login_user("buyer_001", "buypass1"))
+# print("Failed login test:", login_user("seller_001", "wrongpass"))
 
 

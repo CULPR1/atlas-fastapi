@@ -5,8 +5,10 @@ from pymongo.errors import OperationFailure
 import os
 from dotenv import load_dotenv
 
-load_dotenv("/app/.env")
+load_dotenv("C:\\Users\\pavit\\Documents\\Projects\\atlas-fastapi\\.env")
 
+
+#"/app/.env"
 #"/home/ubuntu/atlas-fastapi/.env"
 #C:\\Users\\pavit\\Documents\\Projects\\atlas-fastapi\\.env
 
@@ -34,3 +36,6 @@ profile = db["Profile"]
 inv = db["Inventory"]
 trans = db["Transactions"]
 cart = db["Cart"]
+
+
+#print(get_mongo_client())

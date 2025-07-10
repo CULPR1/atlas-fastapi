@@ -60,7 +60,49 @@ def listInventory(seller_id):
     else: 
         return f"There are {inv_count} items in {seller_id}'s inventory"
 
+# Test inventory functions for seller_001
+# print("\n=== Testing seller_001 Inventory ===")
+# print("Add apples:", addInventory("apples", 50, 1.99, "seller_001"))
+# print("Add bananas:", addInventory("bananas", 30, 0.99, "seller_001"))
+# print("Add oranges:", addInventory("oranges", 40, 1.49, "seller_001"))
 
+# print("\nList seller_001 inventory:")
+# print(listInventory("seller_001"))
 
+# print("\nUpdate apples inventory:")
+# print(updateInventory("apples", 45, 2.19, "seller_001"))
+# print("Try update non-existent item:")
+# print(updateInventory("grapes", 10, 3.99, "seller_001"))
 
+# print("\nDelete oranges:")
+# print(deleteInventory("oranges", "seller_001"))
+# print("Try delete non-existent item:")
+# print(deleteInventory("mangoes", "seller_001"))
 
+# # Test inventory functions for seller_002
+# print("\n=== Testing seller_002 Inventory ===")
+# print("Add laptops:", addInventory("laptops", 10, 999.99, "seller_002"))
+# print("Add headphones:", addInventory("headphones", 25, 149.99, "seller_002"))
+# print("Add keyboards:", addInventory("keyboards", 30, 59.99, "seller_002"))
+
+# print("\nList seller_002 inventory:")
+# print(listInventory("seller_002"))
+
+# print("\nUpdate headphones inventory:")
+# print(updateInventory("headphones", 20, 129.99, "seller_002"))
+
+# print("\nDelete keyboards:")
+# print(deleteInventory("keyboards", "seller_002"))
+
+# # Verify final inventories
+# print("\n=== Final Inventory Check ===")
+# print("seller_001 inventory:")
+# print(listInventory("seller_001"))
+# print("\nseller_002 inventory:")
+# print(listInventory("seller_002"))
+
+# # Edge case testing
+# print("\n=== Edge Case Testing ===")
+# print("Add empty item name:", addInventory("", 10, 1.99, "seller_001"))
+# print("Add zero price item:", addInventory("test_item", 10, 0, "seller_001"))
+# print("Add negative quantity:", addInventory("test_item", -5, 1.99, "seller_001"))
