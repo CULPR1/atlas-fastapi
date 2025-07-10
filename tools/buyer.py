@@ -8,8 +8,8 @@ app = FastAPI()
 
 
 class Searchrequest(BaseModel):
-    item_name : str = None
-    seller_id : str = None
+    item_name : str |None = None
+    seller_id : str |None = None
 
 
 
@@ -30,7 +30,7 @@ class Balance(BaseModel):
 
 
 class removerequest(BaseModel):
-    item_name : str = None
+    item_name : str |None = None
     buyer_id : str
 
 class listremoverequest(BaseModel):
@@ -39,7 +39,7 @@ class listremoverequest(BaseModel):
 
 class Payment(BaseModel):
     buyer_id : str
-    payment_amount : PositiveFloat = None
+    payment_amount : PositiveFloat |None = None
 
 
 
