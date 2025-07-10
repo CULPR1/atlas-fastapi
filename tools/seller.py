@@ -120,7 +120,7 @@ def add_items(
         added_items.append(result)
     return added_items
 
-@app.delete(
+@app.post(
     "/delete_item",
     response_model=list[str],
     description="Deletes items from inventory"
