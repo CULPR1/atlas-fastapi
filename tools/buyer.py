@@ -177,15 +177,21 @@ app = FastAPI()
     "/buyer/search_shop",
     name="search_shop",
     response_model=list[dict] | str,
-    description="""A tool to allow a buyer to search for items in the store""")
-def search_shop(item_name: str = Query(None), seller_id: str = Query(None)):
+    description="Search items in store"
+)
+def search_shop(
+    buyer_id: str,  # Required first
+    item_name: str = Query(None),
+    seller_id: str = Query(None)
+):
     return searchShop(item_name, seller_id)
 
 @app.post(
     "/buyer/addBalance",
     name="addBalance",
     response_model=str,
-    description="Adds balance to buyer's profile")
+    description="Adds balance to buyer's profile"
+)
 def addBalance(buyer_id: str, balance: float):
     return update_balance(buyer_id, balance)
 
@@ -193,7 +199,8 @@ def addBalance(buyer_id: str, balance: float):
     "/buyer/updateBalance",
     name="updateBalance",
     response_model=str,
-    description="Updates buyer's balance (use negative value to withdraw)")
+    description="Updates buyer's balance"
+)
 def updateBalance(buyer_id: str, balance: float):
     return update_balance(buyer_id, balance)
 
@@ -201,21 +208,26 @@ def updateBalance(buyer_id: str, balance: float):
     "/buyer/removeCart",
     name="removeCart",
     response_model=list[str],
-    description="Removes items from cart")
-def removeCart(item_name: str = Query(None), buyer_id: str):
+    description="Removes items from cart"
+)
+def removeCart(
+    buyer_id: str,
+    item_name: str = Query(None)
+):
     return [remove_from_cart(item_name, buyer_id)]
 
 @app.post(
     "/buyer/addtoCart",
     name="add_to_cart",
     response_model=list[str],
-    description="Adds items to cart")
+    description="Adds items to cart"
+)
 def add_to_cart(
+    buyer_id: str,
     itemname: str,
     number_of_units: int,
     price: float,
-    seller_id: str,
-    buyer_id: str
+    seller_id: str
 ):
     return [addtoCart(itemname, number_of_units, price, seller_id, buyer_id)]
 
@@ -223,20 +235,26 @@ def add_to_cart(
     "/buyer/Total_cost",
     name="Total_cost",
     response_model=float | str,
-    description="Calculates total cart cost")
+    description="Calculates total cart cost"
+)
 def Total_cost(buyer_id: str):
     return Totalcost(buyer_id)
 
 @app.post(
     "/buyer/payment",
     name="payment",
-    description="Processes payment for cart items")
-def payment(buyer_id: str, payment_amount: float = None):
+    description="Processes payment"
+)
+def payment(
+    buyer_id: str,
+    payment_amount: float = None
+):
     return pay(buyer_id, payment_amount)
 
 @app.get(
     "/buyer/view_cart",
     name="Viewcart",
-    description="Displays cart contents")
+    description="Displays cart contents"
+)
 def Viewcart(buyer_id: str):
     return view_cart(buyer_id)
