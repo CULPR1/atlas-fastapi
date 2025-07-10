@@ -1,4 +1,4 @@
-from util.buyer_functions import *
+from utils.buyer_functions import *
 from config.init import *
 from pydantic import BaseModel,PositiveInt, PositiveFloat
 from fastapi import FastAPI
