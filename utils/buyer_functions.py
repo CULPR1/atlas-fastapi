@@ -194,7 +194,7 @@ def remove_from_cart(itemname : str | None, buyer_id : str):
 
                 
 def Totalcost(buyer_id : str):
-    if profile.find_one({"user_id" : buyer_id},{"cart":{"$exists": True}}):
+    if profile.find_one({"user_id" : buyer_id, "cart": {"$exists": True}}):
         buyer_profile = list(profile.find({"user_id" : buyer_id}))[0]
         cost = 0.0
         for i in buyer_profile["cart"]:
@@ -281,16 +281,16 @@ def pay(buyer_id : str, payment_amount : float | None=None):
 
 
 def view_cart(buyer_id : str ):
-    if profile.find_one({"user_id" : buyer_id},{"cart":{"$exists": True}})
+    if profile.find_one({"user_id" : buyer_id, "cart": {"$exists": True}}):
         try:
             cart = list(profile.find({"user_id" : buyer_id},{"_id" : 0}))[0]["cart"]
-            if profile.count_document({{"user_id" : buyer_id}}) > 0:
+            if profile.count_documents({"user_id" : buyer_id}) > 0:
                 return cart
             else : 
                 return []
 
-        except Exceptions as e:
-            return f"Error accessing databse {e}"
+        except Exception as e:
+            return f"Error accessing database {e}"
 
     else:
         return "no cart is found"
