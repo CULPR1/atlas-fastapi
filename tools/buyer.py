@@ -58,24 +58,6 @@ def search_shop(query : Searchrequest):
 
 
 
-@app.post(
-    "/buyer/addtoCart",
-    name = "add_to_cart",
-    response_model = list[str],
-    description = """ add one item or a list of items to the buyer's profile so that it can be referenced when payment is required
-    """)
-
-
-def add_to_cart(items : Cartrequest | listCartrequest):
-    if not isinstance(items,listCartrequest) :
-        items = [items]
-    results = []
-    for item in items:
-        response = addtoCart(item.itemname,item.number_of_units,item.price,item.seller_id,item.buyer_id)
-        results.append(response)
-
-    return results
-
 
 @app.post(
     "/buyer/addBalance",
@@ -105,20 +87,42 @@ def updateBalance(balance_req : Balance):
 
 @app.post(
     "/buyer/removeCart",
-    name = "removeCart",
-    response_model = list[str],
-    description = """ removes the items in the cart when mentioned, can be a single item or  a list of items"""
-    )
+    name="removeCart",
+    response_model=list[str],
+    description="""removes the items in the cart when mentioned, can be a single item or a list of items"""
+)
+def removeCart(remove_req: removerequest | listremoverequest):
+    if isinstance(remove_req, listremoverequest):
+        items = remove_req.list
+    else:
+        items = [remove_req]
+    
+    responses = []
+    for item in items:
+        response = remove_from_cart(item.item_name, item.buyer_id)
+        responses.append(response)
+    
+    return responses
 
-def addBalance(remove_req : removerequest | listremoverequest):
-
-    if not isinstance(remove_req,listremoverequest):
-        remove_req = [remove_req]
-    response = []
-    for item in remove_req:
-        response = remove_from_cart(item.item_name,item.buyer_id)
-
-    return response
+@app.post(
+    "/buyer/addtoCart",
+    name="add_to_cart",
+    response_model=list[str],
+    description="""add one item or a list of items to the buyer's profile"""
+)
+def add_to_cart(items: Cartrequest | listCartrequest):
+    if isinstance(items, listCartrequest):
+        item_list = items.list
+    else:
+        item_list = [items]
+    
+    results = []
+    for item in item_list:
+        response = addtoCart(item.itemname, item.number_of_units, 
+                            item.price, item.seller_id, item.buyer_id)
+        results.append(response)
+    
+    return results
 
 
 @app.get(
