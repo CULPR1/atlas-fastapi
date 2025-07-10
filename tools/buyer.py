@@ -14,15 +14,15 @@ class Searchrequest(BaseModel):
 
 
 class Cartrequest(BaseModel):
-    itemname = str
-    number_of_units = PositiveInt
-    price = PositiveFloat
-    seller_id = str
-    buyer_id = str
+    itemname : str
+    number_of_units : PositiveInt
+    price : PositiveFloat
+    seller_id : str
+    buyer_id : str
 
 
 class listCartrequest(BaseModel):
-    list = list[Cartrequest]
+    list : list[Cartrequest]
 
 class Balance(BaseModel):
     buyer_id : str
@@ -34,7 +34,7 @@ class removerequest(BaseModel):
     buyer_id : str
 
 class listremoverequest(BaseModel):
-    list = list[removerequest]
+    list : list[removerequest]
 
 
 class Payment(BaseModel):
