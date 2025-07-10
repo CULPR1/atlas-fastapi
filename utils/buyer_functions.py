@@ -194,8 +194,7 @@ def remove_from_cart(itemname : str | None, buyer_id : str):
 
                 
 def Totalcost(buyer_id : str):
-    if profile.find_one({"user_id" : buyer_id},{"cart":{"$exists": True}})
-        
+    if profile.find_one({"user_id" : buyer_id},{"cart":{"$exists": True}}):
         buyer_profile = list(profile.find({"user_id" : buyer_id}))[0]
         cost = 0.0
         for i in buyer_profile["cart"]:
