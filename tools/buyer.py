@@ -53,7 +53,7 @@ class Payment(BaseModel):
     """)
 
 
-def search_shop(query = Searchrequest):
+def search_shop(query : Searchrequest):
     return searchShop(query.item_name,query.seller_id)
 
 
@@ -66,7 +66,7 @@ def search_shop(query = Searchrequest):
     """)
 
 
-def add_to_cart(items = Cartrequest | listCartrequest):
+def add_to_cart(items : Cartrequest | listCartrequest):
     if not isinstance(items,listCartrequest) :
         items = [items]
     results = []
@@ -85,7 +85,7 @@ def add_to_cart(items = Cartrequest | listCartrequest):
     the buyer can use the balance to pay for his purchase rather than his own payment"""
     )
 
-def addBalance(balance_req = Balance):
+def addBalance(balance_req : Balance):
     return add_balance(balance_req.buyer_id,balance_req.balance)
 
 
@@ -98,7 +98,7 @@ def addBalance(balance_req = Balance):
     description = """ updates the balance section to the buyer's profile, if the balance is to be withdrawn the value of balance input should be negative"""
     )
 
-def updateBalance(balance_req = Balance):
+def updateBalance(balance_req : Balance):
     return add_balance(balance_req.buyer_id,balance_req.balance)
 
 
@@ -110,7 +110,7 @@ def updateBalance(balance_req = Balance):
     description = """ removes the items in the cart when mentioned, can be a single item or  a list of items"""
     )
 
-def addBalance(remove_req = removerequest | listremoverequest):
+def addBalance(remove_req : removerequest | listremoverequest):
 
     if not isinstance(remove_req,listremoverequest):
         remove_req = [remove_req]
@@ -140,7 +140,7 @@ def Total_cost(buyer_id : str):
     description = "allows the buyer to pay for the items in his cart, one can pay using cash provided or the balance account under their name, if the balance account is to be used the payment field is set to None"
 )
 
-def payment(pay_req = Payment):
+def payment(pay_req : Payment):
     return pay(pay_req.buyer_id,pay_req.payment_amount)
 
 
