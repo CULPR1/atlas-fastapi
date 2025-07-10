@@ -51,12 +51,6 @@ def login_user(user_id , password ):
 #print(register_user("malcom_234","456","buyer","Malcom"))
 
 #print(login_user("malcom_234","56"))
-
-print(register_user("malcom_235","235","buyer","Malcoms"))
-
-
-
-
 # # Add first seller
 # print("\n=== Registering Sellers ===")
 # print("Seller 1:", register_user("seller_001", "sellerpass1", "seller", "John Doe"))
