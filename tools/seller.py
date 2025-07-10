@@ -48,7 +48,7 @@ def add_items(items: Item | list[Item]):
     # }
     # """
     added_items = []
-    if not isinstance(items, list):
+    if not isinstance(items, list[Item]):
         items = [items]
     for item in items:
         result = addInventory(item.itemname, item.number_of_units, item.price_of_unit, item.seller_id)
