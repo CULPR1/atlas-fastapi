@@ -1,169 +1,242 @@
+# from utils.buyer_functions import *
+# from config.init import *
+# from pydantic import BaseModel,PositiveInt, PositiveFloat
+# from fastapi import FastAPI
+
+
+# app = FastAPI()
+
+
+# class Searchrequest(BaseModel):
+#     item_name : str |None = None
+#     seller_id : str |None = None
+
+
+
+# class Cartrequest(BaseModel):
+#     itemname : str
+#     number_of_units : PositiveInt
+#     price : PositiveFloat
+#     seller_id : str
+#     buyer_id : str
+
+
+# class listCartrequest(BaseModel):
+#     list : list[Cartrequest]
+
+# class Balance(BaseModel):
+#     buyer_id : str
+#     balance : float
+
+
+# class removerequest(BaseModel):
+#     item_name : str |None = None
+#     buyer_id : str
+
+# class listremoverequest(BaseModel):
+#     list : list[removerequest]
+
+
+# class Payment(BaseModel):
+#     buyer_id : str
+#     payment_amount : PositiveFloat |None = None
+
+
+
+
+# @app.post(
+#     "/buyer/search_shop",
+#     name = "search_shop" , 
+#     response_model = list[dict] | str,
+#     description = """A tool to allow a buyer to search for items in the store, 
+#     the inputs can be just the itemname, the seller name, both or none which will give the entire list
+#     """)
+
+
+# def search_shop(query : Searchrequest):
+#     return searchShop(query.item_name,query.seller_id)
+
+
+
+
+# @app.post(
+#     "/buyer/addBalance",
+#     name = "addBalance",
+#     response_model = str,
+#     description = """ adds the balance section to the buyer's profile so that
+#     the buyer can use the balance to pay for his purchase rather than his own payment"""
+#     )
+
+# def addBalance(balance_req : Balance):
+#     return update_balance(balance_req.buyer_id,balance_req.balance)
+
+
+
+
+# @app.post(
+#     "/buyer/updateBalance",
+#     name = "updateBalance",
+#     response_model = str,
+#     description = """ updates the balance section to the buyer's profile, if the balance is to be withdrawn the value of balance input should be negative"""
+#     )
+
+# def updateBalance(balance_req : Balance):
+#     return add_balance(balance_req.buyer_id,balance_req.balance)
+
+# # 
+
+
+# @app.post(
+#     "/buyer/removeCart",
+#     name="removeCart",
+#     response_model=list[str],
+#     description="""removes the items in the cart when mentioned, can be a single item or a list of items"""
+# )
+# def removeCart(remove_req: removerequest | listremoverequest):
+#     if isinstance(remove_req, listremoverequest):
+#         items = remove_req.list
+#     else:
+#         items = [remove_req]
+    
+#     responses = []
+#     for item in items:
+#         response = remove_from_cart(item.item_name, item.buyer_id)
+#         responses.append(response)
+    
+#     return responses
+
+# @app.post(
+#     "/buyer/addtoCart",
+#     name="add_to_cart",
+#     response_model=list[str],
+#     description="""add one item or a list of items to the buyer's profile"""
+# )
+# def add_to_cart(items: Cartrequest | listCartrequest):
+#     if isinstance(items, listCartrequest):
+#         item_list = items.list
+#     else:
+#         item_list = [items]
+    
+#     results = []
+#     for item in item_list:
+#         response = addtoCart(item.itemname, item.number_of_units, 
+#                             item.price, item.seller_id, item.buyer_id)
+#         results.append(response)
+    
+#     return results
+
+
+# @app.get(
+#     "/buyer/Total_cost",
+#     name = "Total_cost",
+#     response_model = float | str,
+#     description = "gives the buyer a total cost of all the items in his cart if cart exsists, or returns that ther is nothing in cart")
+
+
+# def Total_cost(buyer_id : str):
+#     return Totalcost(buyer_id)
+
+
+
+
+# @app.post(
+#     "/buyer/payment",
+#     name = "payment",
+#     description = "allows the buyer to pay for the items in his cart, one can pay using cash provided or the balance account under their name, if the balance account is to be used the payment field is set to None"
+# )
+
+# def payment(pay_req : Payment):
+#     return pay(pay_req.buyer_id,pay_req.payment_amount)
+
+
+
+# @app.get(
+#     "/buyer/view_cart",
+#     name = "Viewcart",
+#     description = "allows the buyer to see all the items in his cart"
+# )
+
+# def Viewcart(buyer_id : str):
+#     return view_cart(buyer_id)
+    
+
+
+    
+
+
+
+
+
 from utils.buyer_functions import *
 from config.init import *
-from pydantic import BaseModel,PositiveInt, PositiveFloat
-from fastapi import FastAPI
-
+from fastapi import FastAPI, Query
 
 app = FastAPI()
 
-
-class Searchrequest(BaseModel):
-    item_name : str |None = None
-    seller_id : str |None = None
-
-
-
-class Cartrequest(BaseModel):
-    itemname : str
-    number_of_units : PositiveInt
-    price : PositiveFloat
-    seller_id : str
-    buyer_id : str
-
-
-class listCartrequest(BaseModel):
-    list : list[Cartrequest]
-
-class Balance(BaseModel):
-    buyer_id : str
-    balance : float
-
-
-class removerequest(BaseModel):
-    item_name : str |None = None
-    buyer_id : str
-
-class listremoverequest(BaseModel):
-    list : list[removerequest]
-
-
-class Payment(BaseModel):
-    buyer_id : str
-    payment_amount : PositiveFloat |None = None
-
-
-
-
 @app.post(
     "/buyer/search_shop",
-    name = "search_shop" , 
-    response_model = list[dict] | str,
-    description = """A tool to allow a buyer to search for items in the store, 
-    the inputs can be just the itemname, the seller name, both or none which will give the entire list
-    """)
-
-
-def search_shop(query : Searchrequest):
-    return searchShop(query.item_name,query.seller_id)
-
-
-
+    name="search_shop",
+    response_model=list[dict] | str,
+    description="""A tool to allow a buyer to search for items in the store""")
+def search_shop(item_name: str = Query(None), seller_id: str = Query(None)):
+    return searchShop(item_name, seller_id)
 
 @app.post(
     "/buyer/addBalance",
-    name = "addBalance",
-    response_model = str,
-    description = """ adds the balance section to the buyer's profile so that
-    the buyer can use the balance to pay for his purchase rather than his own payment"""
-    )
-
-def addBalance(balance_req : Balance):
-    return update_balance(balance_req.buyer_id,balance_req.balance)
-
-
-
+    name="addBalance",
+    response_model=str,
+    description="Adds balance to buyer's profile")
+def addBalance(buyer_id: str, balance: float):
+    return update_balance(buyer_id, balance)
 
 @app.post(
     "/buyer/updateBalance",
-    name = "updateBalance",
-    response_model = str,
-    description = """ updates the balance section to the buyer's profile, if the balance is to be withdrawn the value of balance input should be negative"""
-    )
-
-def updateBalance(balance_req : Balance):
-    return add_balance(balance_req.buyer_id,balance_req.balance)
-
-# 
-
+    name="updateBalance",
+    response_model=str,
+    description="Updates buyer's balance (use negative value to withdraw)")
+def updateBalance(buyer_id: str, balance: float):
+    return update_balance(buyer_id, balance)
 
 @app.post(
     "/buyer/removeCart",
     name="removeCart",
     response_model=list[str],
-    description="""removes the items in the cart when mentioned, can be a single item or a list of items"""
-)
-def removeCart(remove_req: removerequest | listremoverequest):
-    if isinstance(remove_req, listremoverequest):
-        items = remove_req.list
-    else:
-        items = [remove_req]
-    
-    responses = []
-    for item in items:
-        response = remove_from_cart(item.item_name, item.buyer_id)
-        responses.append(response)
-    
-    return responses
+    description="Removes items from cart")
+def removeCart(item_name: str = Query(None), buyer_id: str):
+    return [remove_from_cart(item_name, buyer_id)]
 
 @app.post(
     "/buyer/addtoCart",
     name="add_to_cart",
     response_model=list[str],
-    description="""add one item or a list of items to the buyer's profile"""
-)
-def add_to_cart(items: Cartrequest | listCartrequest):
-    if isinstance(items, listCartrequest):
-        item_list = items.list
-    else:
-        item_list = [items]
-    
-    results = []
-    for item in item_list:
-        response = addtoCart(item.itemname, item.number_of_units, 
-                            item.price, item.seller_id, item.buyer_id)
-        results.append(response)
-    
-    return results
-
+    description="Adds items to cart")
+def add_to_cart(
+    itemname: str,
+    number_of_units: int,
+    price: float,
+    seller_id: str,
+    buyer_id: str
+):
+    return [addtoCart(itemname, number_of_units, price, seller_id, buyer_id)]
 
 @app.get(
     "/buyer/Total_cost",
-    name = "Total_cost",
-    response_model = float | str,
-    description = "gives the buyer a total cost of all the items in his cart if cart exsists, or returns that ther is nothing in cart")
-
-
-def Total_cost(buyer_id : str):
+    name="Total_cost",
+    response_model=float | str,
+    description="Calculates total cart cost")
+def Total_cost(buyer_id: str):
     return Totalcost(buyer_id)
-
-
-
 
 @app.post(
     "/buyer/payment",
-    name = "payment",
-    description = "allows the buyer to pay for the items in his cart, one can pay using cash provided or the balance account under their name, if the balance account is to be used the payment field is set to None"
-)
-
-def payment(pay_req : Payment):
-    return pay(pay_req.buyer_id,pay_req.payment_amount)
-
-
+    name="payment",
+    description="Processes payment for cart items")
+def payment(buyer_id: str, payment_amount: float = None):
+    return pay(buyer_id, payment_amount)
 
 @app.get(
     "/buyer/view_cart",
-    name = "Viewcart",
-    description = "allows the buyer to see all the items in his cart"
-)
-
-def Viewcart(buyer_id : str):
+    name="Viewcart",
+    description="Displays cart contents")
+def Viewcart(buyer_id: str):
     return view_cart(buyer_id)
-    
-
-
-    
-
-
-
-
-
