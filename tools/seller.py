@@ -68,14 +68,17 @@ def delete_inv(items : Item_rem | list[Item_rem]):
 
 
 
-@app.get("list_inventory/{seller_id}", description = "lists all items in the inventory for a given seller_id, returns a list of items.")
+@app.get("/list_inventory/{seller_id}", description = "lists all items in the inventory for a given seller_id, returns a list of items.")
 def list_inventory(seller_id: str):
     return listInventory(seller_id)
 
 
-@app.put("update_item", response_model = list[str], description = "updates items in the inventory, requires a list of itemname,number_of_units,price_of_unit,seller_id, return a list of messages.")
-def update_item(items: list[Item]):
+
+@app.put("/update_item", response_model = list[str], description = "updates items in the inventory, requires a list of itemname,number_of_units,price_of_unit,seller_id, return a list of messages.")
+def update_item(items: Item | list[Item]):
     updated_items = []
+    if not isinstance(items, list):
+        items = [items]
     for item in items:
         result = updateInventory(item.itemname, item.number_of_units, item.price_of_unit, item.seller_id)
         updated_items.append(result)
